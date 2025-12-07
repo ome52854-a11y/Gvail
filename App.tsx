@@ -33,7 +33,7 @@ const NativeAd = React.memo(() => {
   }, []);
 
   return (
-    <div id="ad-banner" className="w-full flex justify-center my-4 min-h-[50px]" ref={bannerRef}>
+    <div id="ad-banner" className="w-full flex justify-center py-2 min-h-[50px]" ref={bannerRef}>
       {/* Adsterra Native Banner */}
       <div id="container-b003624bf66c49f5c8ce5bf03c352998"></div>
     </div>
@@ -58,6 +58,10 @@ function App() {
   const [isCustomModalOpen, setIsCustomModalOpen] = useState(false);
   const [customUsername, setCustomUsername] = useState('');
   const [availableDomain, setAvailableDomain] = useState('');
+  
+  // Rating State
+  const [rating, setRating] = useState(0);
+  const [feedback, setFeedback] = useState('');
   
   const pollingRef = useRef<number | null>(null);
 
@@ -318,6 +322,16 @@ function App() {
     setView(ViewState.HOME);
   };
 
+  const handleSendFeedback = () => {
+    showToast('Thanks for your feedback!', 'success');
+    // Reset and go home after delay
+    setTimeout(() => {
+        setRating(0);
+        setFeedback('');
+        setView(ViewState.HOME);
+    }, 1500);
+  };
+
   const formatRelativeTime = (dateStr: string) => {
     const date = new Date(dateStr);
     const now = new Date();
@@ -454,7 +468,7 @@ function App() {
     <div className="animate-fade-in">
       <Header onMenuClick={() => setIsMenuOpen(true)} title="Gvail" />
       
-      <main className="p-4 md:p-8 max-w-lg md:max-w-5xl mx-auto space-y-6 md:space-y-8">
+      <div className="p-4 md:p-8 max-w-lg md:max-w-5xl mx-auto space-y-6 md:space-y-8">
         <div className="grid md:grid-cols-12 gap-6">
           {/* Main Card */}
           <div className="md:col-span-7 lg:col-span-8 bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 relative overflow-hidden group">
@@ -492,9 +506,6 @@ function App() {
              </div>
           </div>
         </div>
-
-        {/* Native Ad Banner */}
-        <NativeAd />
 
         {/* Inbox Section */}
         <div className="space-y-4">
@@ -570,7 +581,7 @@ function App() {
             )}
           </div>
         </div>
-      </main>
+      </div>
 
       {/* Custom Email Modal */}
       <Modal 
@@ -684,17 +695,46 @@ function App() {
         rightAction={<button onClick={() => setView(ViewState.HOME)} className="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-full transition-colors"><Icon name="close" /></button>}
       />
       <div className="flex-1 flex flex-col items-center justify-center p-6">
-         <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl w-full max-w-sm text-center">
-            <h2 className="text-2xl font-bold mb-2">Enjoying Gvail?</h2>
-            <p className="text-slate-500 mb-6">Tap a star to rate it on the App Store.</p>
+         <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl w-full max-w-sm text-center transition-all">
+            <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">Enjoying Gvail?</h2>
+            <p className="text-slate-500 dark:text-slate-400 mb-8">Tap a star to rate it.</p>
+            
             <div className="flex justify-center gap-2 mb-8">
               {[1,2,3,4,5].map(star => (
-                <button key={star} className="text-4xl text-yellow-400 hover:scale-110 transition-transform focus:outline-none" onClick={() => showToast(`You rated ${star} stars. Thanks!`, 'success')}>
-                  ★
+                <button 
+                    key={star} 
+                    className={`text-4xl transition-transform hover:scale-110 focus:outline-none ${star <= rating ? 'text-yellow-400' : 'text-slate-300 dark:text-slate-600'}`} 
+                    onClick={() => setRating(star)}
+                >
+                  <span 
+                    className="material-symbols-outlined" 
+                    style={{ fontVariationSettings: `'FILL' ${star <= rating ? 1 : 0}, 'wght' 400, 'GRAD' 0, 'opsz' 24` }}
+                  >
+                    star
+                  </span>
                 </button>
               ))}
             </div>
-            <p className="text-xs text-slate-400">Your feedback helps us improve.</p>
+
+            {rating > 0 && (
+                <div className="animate-slide-up space-y-4">
+                    <textarea 
+                        className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none resize-none"
+                        rows={3}
+                        placeholder="Tell us what you think..."
+                        value={feedback}
+                        onChange={(e) => setFeedback(e.target.value)}
+                    ></textarea>
+                    
+                    <Button onClick={handleSendFeedback} className="w-full">
+                        Send Feedback
+                    </Button>
+                </div>
+            )}
+            
+            {rating === 0 && (
+                <p className="text-xs text-slate-400">Your feedback helps us improve.</p>
+            )}
          </div>
       </div>
     </div>
@@ -732,14 +772,24 @@ function App() {
       {renderDrawer()}
 
       {/* Main Content Area */}
-      <main className="flex-1 min-w-0 overflow-y-auto relative h-screen scroll-smooth">
-        {view === ViewState.HOME && renderHome()}
-        {view === ViewState.EMAIL_DETAIL && renderEmailDetail()}
-        {view === ViewState.ABOUT && renderInfoPage('About Us', ABOUT_TEXT)}
-        {view === ViewState.PRIVACY && renderInfoPage('Privacy & Terms', PRIVACY_TEXT)}
-        {view === ViewState.VISION && renderInfoPage('Our Vision', VISION_TEXT)}
-        {view === ViewState.RATE && renderRateUs()}
-      </main>
+      <div className="flex-1 min-w-0 flex flex-col h-screen overflow-hidden">
+        <main className="flex-1 overflow-y-auto relative scroll-smooth flex flex-col">
+          {/* Content Wrapper - Pushes Footer Down */}
+          <div className="flex-1">
+             {view === ViewState.HOME && renderHome()}
+             {view === ViewState.EMAIL_DETAIL && renderEmailDetail()}
+             {view === ViewState.ABOUT && renderInfoPage('About Us', ABOUT_TEXT)}
+             {view === ViewState.PRIVACY && renderInfoPage('Privacy & Terms', PRIVACY_TEXT)}
+             {view === ViewState.VISION && renderInfoPage('Our Vision', VISION_TEXT)}
+             {view === ViewState.RATE && renderRateUs()}
+          </div>
+          
+          {/* Persistent Native Ad - Inside Scroll Flow */}
+          <div className="shrink-0 py-6 w-full flex justify-center items-center">
+             <NativeAd />
+          </div>
+        </main>
+      </div>
 
       {/* Floating Elements */}
       <ToastContainer 
