@@ -5,6 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="https://fonts.gstatic.com/s/i/materialiconsoutlined/mail/v16/24px.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gvail - Secure Temp Mail</title>
+    <!-- Tailwind CSS CDN (Kept for simplicity) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -74,12 +75,14 @@
         background: #5b21b6;
       }
     </style>
-  <script type="importmap">
+<script type="importmap">
 {
   "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.1",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
     "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "react": "https://aistudiocdn.com/react@^19.2.1"
+    "vite": "https://aistudiocdn.com/vite@^7.2.6",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
   }
 }
 </script>
@@ -94,5 +97,8 @@
       document.body.appendChild(z);}};r.send(null);})
       (window, "//pl28205627.effectivegatecpm.com/fb/62/c0/fb62c0c75f1005fffbc30247bb2a7c33.js", "socialbar");
     </script>
+    
+    <!-- Entry Point for Vite Build -->
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>
