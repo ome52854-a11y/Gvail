@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="https://fonts.gstatic.com/s/i/materialiconsoutlined/mail/v16/24px.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gvail - Secure Temp Mail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#f5f3ff',
+                100: '#ede9fe',
+                200: '#ddd6fe',
+                300: '#c4b5fd',
+                400: '#a78bfa',
+                500: '#8b5cf6',
+                600: '#7c3aed',
+                700: '#6d28d9',
+                800: '#5b21b6',
+                900: '#4c1d95',
+              }
+            },
+            fontFamily: {
+              sans: ['"Space Grotesk"', 'sans-serif'],
+            },
+            animation: {
+              'fade-in': 'fadeIn 0.5s ease-out',
+              'slide-up': 'slideUp 0.5s ease-out',
+              'progress': 'progress 2s ease-in-out forwards',
+            },
+            keyframes: {
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              },
+              slideUp: {
+                '0%': { transform: 'translateY(20px)', opacity: '0' },
+                '100%': { transform: 'translateY(0)', opacity: '1' },
+              },
+              progress: {
+                '0%': { width: '0%' },
+                '100%': { width: '100%' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+    <style>
+      body {
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      /* Custom Scrollbar for Webkit */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #a78bfa;
+        border-radius: 3px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #5b21b6;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/",
+    "react": "https://aistudiocdn.com/react@^19.2.1"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-50 text-slate-900 dark:bg-slate-900 dark:text-white transition-colors duration-300">
+    <div id="root"></div>
+    <!-- Adsterra Social Bar -->
+    <script type="text/javascript">
+      (function(s,u,b){var r=new XMLHttpRequest();r.open("GET",u,true);
+      r.onreadystatechange=function(){if(r.readyState==4&&r.status==200){
+      var z=document.createElement('script');z.innerHTML=r.responseText;
+      document.body.appendChild(z);}};r.send(null);})
+      (window, "//pl28205627.effectivegatecpm.com/fb/62/c0/fb62c0c75f1005fffbc30247bb2a7c33.js", "socialbar");
+    </script>
+  </body>
+</html>

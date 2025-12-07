@@ -1,0 +1,5 @@
+{
+  "name": "Gvail",
+  "description": "A modern, mobile-first temporary email application using the Mail.tm API for instant disposable email addresses.",
+  "requestFramePermissions": []
+}
